@@ -24,9 +24,12 @@ class PackageView(APIView):
 
         uploadFile = request.FILES['uploadFile']
         filePath = str(os.getenv('APP_DIR')) + uploadFile.name
-        with open(filePath, 'wb+') as dest:
-            for chunk in uploadFile.chunks():
-                dest.write(chunk)
+        try:
+            with open(filePath, 'xb+') as dest:
+                for chunk in uploadFile.chunks():
+                    dest.write(chunk)
+        except Exception as e:
+            return Response({'error': str(e)}, status = status.HTTP_400_BAD_REQUEST)
 
         try:
             metadata = aapt.get_apk_info(filePath)
