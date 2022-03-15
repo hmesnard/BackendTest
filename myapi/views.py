@@ -22,7 +22,7 @@ class PackageView(APIView):
         if (not uploadSerializer.is_valid()):
             return Response(uploadSerializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-        uploadFile = request.FILES['file']
+        uploadFile = request.FILES['uploadFile']
         filePath = str(os.getenv('APP_DIR')) + uploadFile.name
         with open(filePath, 'wb+') as dest:
             for chunk in uploadFile.chunks():
